@@ -3,25 +3,12 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import unicode_literals  
 
-import abc
-import sys
-
 import numpy as np
-import pandas as pd
-from sklearn import linear_model, preprocessing, cluster
-import scipy.linalg as slin
-import scipy.sparse.linalg as sparselin
-import scipy.sparse as sparse 
+from sklearn import linear_model
 
-import os.path
-import time
 import tensorflow as tf
 import math
-
-from tensorflow.python.ops import array_ops
-
-from influence.hessians import hessians
-from influence.genericNeuralNet import GenericNeuralNet, variable, variable_with_weight_decay
+from influence.genericNeuralNet import GenericNeuralNet, variable_with_weight_decay
 
 
 class LogisticRegressionWithLBFGS(GenericNeuralNet):
@@ -173,7 +160,7 @@ class LogisticRegressionWithLBFGS(GenericNeuralNet):
             if verbose: print('Using model minus one')
             model = self.sklearn_model_minus_one
         else:
-            raise ValueError, "feed_dict has incorrect number of training examples"
+            raise ValueError("feed_dict has incorrect number of training examples")
 
         # print(X_train)
         # print(Y_train)

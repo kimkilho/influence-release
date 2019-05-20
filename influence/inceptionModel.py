@@ -3,28 +3,17 @@ from __future__ import print_function
 from __future__ import absolute_import
 from __future__ import unicode_literals  
 
-import abc
-import sys
-
 import numpy as np
-import pandas as pd
-from sklearn import linear_model, preprocessing, cluster
-import scipy.linalg as slin
-import scipy.sparse.linalg as sparselin
-import scipy.sparse as sparse 
+from sklearn import linear_model
 
-import os.path
-import time
 import tensorflow as tf
 import math
 
-from influence.hessians import hessians
-from influence.genericNeuralNet import GenericNeuralNet, variable, variable_with_weight_decay
+from influence.genericNeuralNet import GenericNeuralNet, variable_with_weight_decay
 from influence.inception_v3 import InceptionV3
 
 from keras.layers import Flatten
 from keras.layers import AveragePooling2D
-from keras.utils.data_utils import get_file
 from keras import backend as K
 
 
@@ -233,7 +222,7 @@ class BinaryInceptionModel(GenericNeuralNet):
         batch_feed_dict = {}
         batch_feed_dict[K.learning_phase()] = 0
 
-        for i in xrange(num_iter):
+        for i in range(num_iter):
             start = i * batch_size
             end = (i+1) * batch_size
             if end > num_examples:
@@ -265,7 +254,7 @@ class BinaryInceptionModel(GenericNeuralNet):
             print('Using model minus one')
             model = self.sklearn_model_minus_one
         else:
-            raise ValueError, "feed_dict has incorrect number of training examples"
+            raise ValueError("feed_dict has incorrect number of training examples")
 
         model.fit(X_train, Y_train)
         # sklearn returns coefficients in shape num_classes x num_features
